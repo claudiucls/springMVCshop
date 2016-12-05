@@ -1,13 +1,17 @@
 package com.claudiucls.dao;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.claudiucls.model.Product;
 
@@ -23,6 +27,7 @@ public class ProductDaoImpl implements ProductDao {
 	public void addProduct(Product product) {
 		Session session = sf.getCurrentSession();
 		session.saveOrUpdate(product);
+		
 	}
 
 	@Override

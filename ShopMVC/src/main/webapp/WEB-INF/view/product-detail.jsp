@@ -11,15 +11,17 @@
 <br />
 
 <!-- Product List  -->
-	<div class="container">
+<div class="container">
 	<div class="page-header">
 		<h1>${product.name}</h1>
 		<p class="lead">Description: ${product.description}</p>
 	</div>
-	<div class="col-md-4">
-		<img alt="" src="#" style="width:30%, height= 30%">
+	<div class="col-sm-4">
+		<img alt="image"
+			src='<c:url value="/resources/images/${product.id}.png"/>'
+			class="img-rounded" width="200" height="200">
 	</div>
-	<div class="col-md-8">
+	<div class="col-sm-8">
 		<p>Manufacturier: ${product.manufacturier}</p>
 		<p>Condition: ${product.condition}</p>
 		<p>Status: ${product.status}</p>
@@ -27,7 +29,7 @@
 		<h3>Price: $ ${product.price }</h3>
 	</div>
 
-	<br />
 
+	
 	<!-- End of productList -->
 	<%@ include file="/WEB-INF/view/footer.jsp"%>

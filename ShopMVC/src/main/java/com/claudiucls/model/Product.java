@@ -4,6 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 public class Product {
@@ -18,6 +21,9 @@ public class Product {
 	private String condition;
 	private String status;
 	private int unitsInStock;
+	
+	@Transient
+	private MultipartFile photo;
 	
 	
 	
@@ -74,6 +80,12 @@ public class Product {
 	}
 	public void setUnitsInStock(int unitsInStock) {
 		this.unitsInStock = unitsInStock;
+	}
+	public MultipartFile getPhoto() {
+		return photo;
+	}
+	public void setPhoto(MultipartFile photo) {
+		this.photo = photo;
 	}
 	
 	
