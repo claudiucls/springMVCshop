@@ -43,6 +43,7 @@
    			<td>
    				<a href="<c:url value="/productDetail/${p.id}"/>"><span class="glyphicon glyphicon-info-sign"></span></a>
    				<a href="<c:url value="/admin/delete/${p.id}"/>"><span class="glyphicon glyphicon-trash"></span></a>
+   				<a href="<c:url value="/admin/edit/${p.id}"/>"><span class="glyphicon glyphicon-pencil"></span></a>
    			</td>
    		</tr>
    		</c:forEach>

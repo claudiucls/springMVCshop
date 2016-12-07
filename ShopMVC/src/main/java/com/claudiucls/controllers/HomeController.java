@@ -1,10 +1,12 @@
 package com.claudiucls.controllers;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,14 +53,44 @@ public class HomeController {
 	@RequestMapping(value="/admin/addProduct", method=RequestMethod.GET)
 	public String addProduct(Model model){
 		Product product =new Product();
-		product.setStatus("active");
 		model.addAttribute("product", product);
 		return "product-form";
 	}
 	
+	@RequestMapping(value="/admin/edit/{id}", method=RequestMethod.GET)
+	public String editProduct(@PathVariable("id")Long id,Model model){
+		Product product =productDao.getProductById(id);
+		model.addAttribute("product", product);
+		return "product-form";
+	}
+	
+	@RequestMapping(value="/admin/edit/addProduct", method=RequestMethod.POST)
+	public String editProduct(@ModelAttribute("product") Product product,HttpServletRequest request){
+		product.setStatus("active");
+		productDao.addProduct(product);
+		
+		MultipartFile productImage = product.getPhoto();		
+		
+		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+		path = Paths.get(rootDirectory+"//WEB-INF//resources//images//"+product.getId()+".png");
+		
+		if(productImage != null && !productImage.isEmpty()){
+			try{
+				productImage.transferTo(new File(path.toString()));
+			} catch (Exception e){
+				e.printStackTrace();
+				throw new RuntimeException("Product image saving failed!", e);
+			}
+		}
+		return "redirect:/admin/products";
+	}
+	
+	
+	
 	@RequestMapping(value="/admin/addProduct", method=RequestMethod.POST)
 	public String saveProduct(@ModelAttribute("product") Product product, HttpServletRequest request){
 		
+		product.setStatus("active");
 		productDao.addProduct(product);
 		
 		MultipartFile productImage = product.getPhoto();		
@@ -84,7 +116,20 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/admin/delete/{id}")
-	public String deleteProduct(@PathVariable Long id,Model model){
+	public String deleteProduct(@PathVariable Long id,Model model,HttpServletRequest request){
+		
+		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+		path = Paths.get(rootDirectory+"//WEB-INF//resources//images//"+id+".png");
+		
+		
+		if(Files.exists(path)){
+			try{
+				Files.delete(path);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 		productDao.deleteProduct(id);
 		return "redirect:/admin/products";
 	}

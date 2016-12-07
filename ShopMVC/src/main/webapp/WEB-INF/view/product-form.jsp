@@ -20,6 +20,7 @@
 
 	<form:form class="form-horizontal" action="addProduct" commandName="product"
 		method="post" enctype="multipart/form-data">
+		<form:hidden path="id"/>
 		<div class="form-group">
 			<label for="name" class="col-sm-2 control-label">Product Name</label>
 			<div class="col-sm-10">
@@ -31,8 +32,8 @@
 			<label for="description" class="col-sm-2 control-label">Product
 				Description</label>
 			<div class="col-sm-10">
-				<textarea class="form-control" id="description"
-					placeholder="Description" name="description" rows="5" cols="40"></textarea>
+				<form:textarea class="form-control" id="description"
+					placeholder="Description" name="description" rows="5" cols="40" path="description"/>
 			</div>
 		</div>
 		
@@ -86,7 +87,7 @@
 				Price</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" id="price"
-					placeholder="price $" name="price">
+					placeholder="price $" name="price" value="${product.price}">
 			</div>
 		</div>
 		
